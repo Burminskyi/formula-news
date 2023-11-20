@@ -1,6 +1,7 @@
 import styled from "@emotion/styled";
 
 export const StyledFilterBar = styled.div`
+width: inherit;
   margin-bottom: 20px;
 `;
 

@@ -13,7 +13,6 @@ export const getTopNewsThunk = createAsyncThunk(
 
     try {
       const { data } = await axios.get(`https://newsapi.org/v2/top-headlines?country=us&apiKey=${API_KEY}`);
-      console.log('data: ', data.articles);
       return data;
 
     } catch (error) {
