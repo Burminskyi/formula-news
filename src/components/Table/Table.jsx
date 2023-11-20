@@ -1,4 +1,7 @@
 import * as React from "react";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -6,7 +9,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
-import { useSelector } from "react-redux";
+
 import { selectIsLoading, selectTopNews } from "../../redux/News/selectors";
 import { StyledTableCell, TableCellWrap } from "./Table.styled";
 import { Loader } from "../Loader/Loader";
@@ -39,6 +42,7 @@ const columns = [
 export default function StickyHeadTable() {
   const topNews = useSelector(selectTopNews);
   const isLoading = useSelector(selectIsLoading);
+  const navigate = useNavigate();
 
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -52,7 +56,21 @@ export default function StickyHeadTable() {
     setPage(0);
   };
 
+  const convertToSlug = (text) => {
+    return text
+      .toLowerCase()
+      .replace(/[^\w\s-]/g, "")
+      .replace(/\s+/g, "-")
+      .replace(/--+/g, "-")
+      .trim();
+  };
+
   if (isLoading) return <Loader />;
+
+  const handleRowClick = (row) => {
+    const formattedTitle = convertToSlug(row.title);
+    navigate(`/article/${formattedTitle}`, { state: { row } });
+  };
 
   return (
     <Paper sx={{ width: "100%", overflow: "hidden" }}>
@@ -72,6 +90,7 @@ export default function StickyHeadTable() {
                     minWidth: column.minWidth,
                     maxWidth: column.minWidth,
                     width: column.minWidth,
+                    backgroundColor: "#ECF0F6",
                   }}
                 >
                   {column.label}
@@ -87,6 +106,7 @@ export default function StickyHeadTable() {
                 const formattedDate = new Date(originalDate)
                   .toISOString()
                   .split("T")[0];
+
                 return (
                   row.url !== "https://removed.com" && (
                     <TableRow hover role="checkbox" tabIndex={-1} key={row.URL}>
@@ -96,8 +116,13 @@ export default function StickyHeadTable() {
                           <img src={row.urlToImage} alt={row.title} />
                         </TableCellWrap>
                       </StyledTableCell>
-                      <StyledTableCell>
-                        <TableCellWrap>{row.title}</TableCellWrap>
+                      <StyledTableCell className="title-cell">
+                        <TableCellWrap
+                          onClick={() => handleRowClick(row)}
+                          className="title-cell"
+                        >
+                          {row.title}
+                        </TableCellWrap>
                       </StyledTableCell>
                       <StyledTableCell>
                         <TableCellWrap>{row.author}</TableCellWrap>

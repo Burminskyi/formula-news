@@ -8,6 +8,7 @@ export const TableCellWrap = styled.div`
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
+  
 `;
 
 export const StyledTableCell = styled(TableCell)`
@@ -26,6 +27,10 @@ export const StyledTableCell = styled(TableCell)`
     align-items: center;
     justify-content: center;
     text-align: center;
+  }
+  &.title-cell:hover {
+    cursor: pointer;
+    text-decoration-line: underline;
   }
   &:not(:last-child) {
     border-right: 1px solid #efeff3;

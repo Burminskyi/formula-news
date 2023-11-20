@@ -5,6 +5,7 @@ import ErrorPage from "./pages/ErrorPagge/ErrorPage";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { getTopNewsThunk } from "./redux/News/operations";
+import ArticlePage from "./pages/ArticlePage/ArticlePage";
 
 
 export const App = () => {
@@ -12,18 +13,17 @@ export const App = () => {
 
   useEffect(() => {
     dispatch(getTopNewsThunk());
-  }, []);
+  }, [dispatch]);
 
   return (
     <>
       <Routes>
         <Route path="/" element={<SharedLayout />}>
           <Route index element={<HomePage />} />
-          {/* <Route path="favorites" element={<Favorites />} /> */}
+          <Route path="article/:id" element={<ArticlePage />} />
           <Route path="*" element={<ErrorPage />} />
         </Route>
       </Routes>
     </>
   );
-}
-
+};

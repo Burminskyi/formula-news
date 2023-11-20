@@ -31,8 +31,10 @@ export const FilterBar = () => {
             type="button"
             startIcon={<FilterAltIcon />}
             sx={{
+              backgroundColor: "#ECF0F6",
               height: 46,
               width: 115,
+              color: "#1A232E",
             }}
           >
             Filter
