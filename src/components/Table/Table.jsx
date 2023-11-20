@@ -151,15 +151,48 @@ export default function StickyHeadTable() {
 
   return (
     <Paper sx={{ width: "100%", overflow: "hidden" }}>
-      <TableContainer >
-        <Table stickyHeader aria-label="sticky table">
-          <TableHead>
-            <TableRow>
+      <TableContainer sx={{ width: "1180px", margin: "auto" }}>
+        <Table
+          stickyHeader
+          aria-label="sticky table"
+          sx={{ tableLayout: "fixed" }}
+        >
+          <TableHead
+            sx={{
+              background: "#EFEFF3",
+              "& .myTableCell": {
+                minWidth: "100px !important",
+                width: "100px !important",
+                height: "87px !important",
+                padding: "8px 16px !important",
+              },
+            }}
+          >
+            <TableRow sx={{ height: "24 !important" }}>
               {columns.map((column) => (
                 <TableCell
                   key={column.id}
-                  align={column.align}
-                  style={{ minWidth: column.minWidth }}
+                  align="left"
+                  sx={{
+                    minWidth: column.minWidth,
+                    width:
+                      column.id === "image"
+                        ? 100
+                        : column.id === "title"
+                        ? 222
+                        : column.id === "authors"
+                        ? 164
+                        : column.id === "description"
+                        ? 291
+                        : column.id === "date"
+                        ? 112
+                        : 87,
+                    padding: "8px 16px",
+                    whiteSpace: "nowrap",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    border: "1px solid #e0e0e0",
+                  }}
                 >
                   {column.label}
                 </TableCell>
@@ -175,7 +208,15 @@ export default function StickyHeadTable() {
                     {columns.map((column) => {
                       const value = row[column.id];
                       return (
-                        <TableCell key={column.id} align={column.align}>
+                        <TableCell
+                          key={column.id}
+                          align={column.align}
+                          sx={{
+                            minWidth: column.minWidth,
+                            height: 87,
+                            border: "1px solid #e0e0e0",
+                          }}
+                        >
                           {column.format && typeof value === "number"
                             ? column.format(value)
                             : value}

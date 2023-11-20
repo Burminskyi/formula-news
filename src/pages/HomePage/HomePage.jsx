@@ -1,12 +1,16 @@
+import { Container } from "@mui/material";
 import CustomPaginationActionsTable from "../../components/Table/Table";
+import { FilterBar } from "../../components/FilterBar/FilterBar";
+import { StledHomePage } from "./HomePage.styled";
 
 const HomePage = () => {
   return (
-    <section>
-      <div>
+    <StledHomePage>
+      <Container>
+        <FilterBar/>
         <CustomPaginationActionsTable />
-      </div>
-    </section>
+      </Container>
+    </StledHomePage>
   );
 };
 
