@@ -13,27 +13,28 @@ import SelectBar from "../SelectBar/SelectBar";
 import { SearchInput } from "../SearchInput/SearchInput";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
+import { getTopNewsThunk } from "../../redux/News/operations";
 
 export const FilterBar = () => {
   const [isBtnClicked, setIsBtnClicked] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("");
   const [selectedCountry, setSelectedCountry] = useState("");
+  const dispatch = useDispatch();
 
   const toggleFilters = () => {
     setIsBtnClicked(!isBtnClicked);
   };
 
-  const handleCategoryChange = (e) => {
-    setSelectedCategory(e.target.value);
+  const handleCategoryChange = (data) => {
+    setSelectedCategory(data);
   };
 
-  const handleCountryChange = (e) => {
-    setSelectedCountry(e.target.value);
+  const handleCountryChange = (data) => {
+    setSelectedCountry(data);
   };
 
   const handleSubmit = () => {
-    console.log("selectedCountry: ", selectedCountry);
-    console.log("selectedCategory: ", selectedCategory);
+    dispatch(getTopNewsThunk({ selectedCountry, selectedCategory }));
   };
 
   const CATEGORIES = [

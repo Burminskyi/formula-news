@@ -1,21 +1,28 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const API_KEY = 'cb2a36bc7ba1400994f41c7e4f642de4';
+const API_KEY = "cb2a36bc7ba1400994f41c7e4f642de4";
 
 export const $instance = axios.create({
-  baseURL: "https://6546500efe036a2fa955801e.mockapi.io/",
+  baseURL: `https://newsapi.org/v2/top-headlines`,
+  params: {
+    apiKey: API_KEY,
+  },
 });
 
 export const getTopNewsThunk = createAsyncThunk(
   "news/getTopNews",
-  async (_, thunkApi) => {
-
+  async (params = {}, thunkApi) => {
+    console.log("params: ", params);
+    const { selectedCountry, selectedCategory } = params;
+    const country = selectedCountry || "us";
     try {
-      const { data } = await axios.get(`https://newsapi.org/v2/top-headlines?country=us&apiKey=${API_KEY}`);
-      console.log('data: ', data);
+      const { data } = await $instance.get(
+        `/?country=${country}${
+          selectedCategory ? `&category=${selectedCategory}` : ""
+        }`
+      );
       return data;
-
     } catch (error) {
       return thunkApi.rejectWithValue(error.message);
     }

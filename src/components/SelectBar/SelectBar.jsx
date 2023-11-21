@@ -9,7 +9,7 @@ import { Button } from "@mui/material";
 export default function SelectBar({ selectType, values, onChange, selectedValue }) {
 
   const handleChange = (e) => {
-    onChange(e);
+    onChange(e.target.value);
   };
 
   const handleReset = () => {
@@ -32,7 +32,6 @@ export default function SelectBar({ selectType, values, onChange, selectedValue 
             },
           }}
         >
-          <MenuItem value="">All</MenuItem>
           {values &&
             values.map((value) => (
               <MenuItem key={value} value={value}>
