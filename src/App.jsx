@@ -7,7 +7,6 @@ import { useEffect } from "react";
 import { getTopNewsThunk } from "./redux/News/operations";
 import ArticlePage from "./pages/ArticlePage/ArticlePage";
 
-
 export const App = () => {
   const dispatch = useDispatch();
 

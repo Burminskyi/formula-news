@@ -6,14 +6,18 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import { Button } from "@mui/material";
 
-export default function SelectBar({ selectType, values, onChange, selectedValue }) {
-
+export default function SelectBar({
+  selectType,
+  values,
+  onChange,
+  selectedValue,
+}) {
   const handleChange = (e) => {
     onChange(e.target.value);
   };
 
   const handleReset = () => {
-    onChange('');
+    onChange("");
   };
 
   return (

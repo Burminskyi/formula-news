@@ -10,7 +10,11 @@ import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 
-import { selectIsLoading, selectTopNews } from "../../redux/News/selectors";
+import {
+  selectError,
+  selectIsLoading,
+  selectTopNews,
+} from "../../redux/News/selectors";
 import { StyledTableCell, TableCellWrap } from "./Table.styled";
 import { Loader } from "../Loader/Loader";
 
@@ -42,6 +46,7 @@ const columns = [
 export default function StickyHeadTable() {
   const topNews = useSelector(selectTopNews);
   const isLoading = useSelector(selectIsLoading);
+  const error = useSelector(selectError);
   const navigate = useNavigate();
 
   const [page, setPage] = React.useState(0);
@@ -71,6 +76,8 @@ export default function StickyHeadTable() {
     const formattedTitle = convertToSlug(row.title);
     navigate(`/article/${formattedTitle}`, { state: { row } });
   };
+
+  if (error) return <p>{error}</p>;
 
   return (
     <Paper sx={{ width: "100%", overflow: "hidden" }}>

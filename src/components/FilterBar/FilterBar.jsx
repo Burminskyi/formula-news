@@ -13,12 +13,16 @@ import SelectBar from "../SelectBar/SelectBar";
 import { SearchInput } from "../SearchInput/SearchInput";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { getTopNewsThunk } from "../../redux/News/operations";
+import {
+  getNewsByHeadersThunk,
+  getTopNewsThunk,
+} from "../../redux/News/operations";
 
 export const FilterBar = () => {
   const [isBtnClicked, setIsBtnClicked] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("");
   const [selectedCountry, setSelectedCountry] = useState("");
+  const [searchValue, setSearchValue] = useState("");
   const dispatch = useDispatch();
 
   const toggleFilters = () => {
@@ -33,9 +37,29 @@ export const FilterBar = () => {
     setSelectedCountry(data);
   };
 
-  const handleSubmit = () => {
-    dispatch(getTopNewsThunk({ selectedCountry, selectedCategory }));
+  const handleSearch = () => {
+    dispatch(getNewsByHeadersThunk(searchValue));
+    setSearchValue("");
   };
+
+  const handleInputChange = (event) => {
+    setSearchValue(event.target.value);
+  };
+
+  const handleKeyPress = (event) => {
+    if (event.key === "Enter") {
+      handleSearch(searchValue);
+    }
+  };
+
+  const handleSubmit = () => {
+    const selectedCountryCode = getKeyByValue(COUNTRIES, selectedCountry);
+    dispatch(getTopNewsThunk({ selectedCountryCode, selectedCategory }));
+  };
+
+  function getKeyByValue(object, value) {
+    return Object.keys(object).find((key) => object[key] === value);
+  }
 
   const CATEGORIES = [
     "business",
@@ -47,69 +71,76 @@ export const FilterBar = () => {
     "technology",
   ];
 
-  const COUNTRIES = [
-    "ae",
-    "ar",
-    "at",
-    "au",
-    "be",
-    "bg",
-    "br",
-    "ca",
-    "ch",
-    "cn",
-    "co",
-    "cu",
-    "cz",
-    "de",
-    "eg",
-    "fr",
-    "gb",
-    "gr",
-    "hk",
-    "hu",
-    "id",
-    "ie",
-    "il",
-    "in",
-    "it",
-    "jp",
-    "kr",
-    "lt",
-    "lv",
-    "ma",
-    "mx",
-    "my",
-    "ng",
-    "nl",
-    "no",
-    "nz",
-    "ph",
-    "pl",
-    "pt",
-    "ro",
-    "rs",
-    "ru",
-    "sa",
-    "se",
-    "sg",
-    "si",
-    "sk",
-    "th",
-    "tr",
-    "tw",
-    "ua",
-    "us",
-    "ve",
-    "za",
-  ];
+  const COUNTRIES = {
+    ae: "United Arab Emirates",
+    ar: "Argentina",
+    at: "Austria",
+    au: "Australia",
+    be: "Belgium",
+    bg: "Bulgaria",
+    br: "Brazil",
+    ca: "Canada",
+    ch: "Switzerland",
+    cn: "China",
+    co: "Colombia",
+    cu: "Cuba",
+    cz: "Czech Republic",
+    de: "Germany",
+    eg: "Egypt",
+    fr: "France",
+    gb: "United Kingdom",
+    gr: "Greece",
+    hk: "Hong Kong",
+    hu: "Hungary",
+    id: "Indonesia",
+    ie: "Ireland",
+    il: "Israel",
+    in: "India",
+    it: "Italy",
+    jp: "Japan",
+    kr: "South Korea",
+    lt: "Lithuania",
+    lv: "Latvia",
+    ma: "Morocco",
+    mx: "Mexico",
+    my: "Malaysia",
+    ng: "Nigeria",
+    nl: "Netherlands",
+    no: "Norway",
+    nz: "New Zealand",
+    ph: "Philippines",
+    pl: "Poland",
+    pt: "Portugal",
+    ro: "Romania",
+    rs: "Serbia",
+    ru: "Russia",
+    sa: "Saudi Arabia",
+    se: "Sweden",
+    sg: "Singapore",
+    si: "Slovenia",
+    sk: "Slovakia",
+    th: "Thailand",
+    tr: "Turkey",
+    tw: "Taiwan",
+    ua: "Ukraine",
+    us: "United States",
+    ve: "Venezuela",
+    za: "South Africa",
+  };
+
+  const COUNTRY_NAMES = Object.values(COUNTRIES);
 
   return (
     <StyledFilterBar>
       <FilterBarWrap>
         <FilterDescription>Formula Top Headlines</FilterDescription>
         <SearchBarWrap>
-          <SearchInput />
+          <SearchInput
+            onKeyPress={handleKeyPress}
+            onChange={handleInputChange}
+            value={searchValue}
+            handleSearch={() => handleSearch(searchValue)}
+          />
           <Button
             onClick={toggleFilters}
             variant="contained"
@@ -136,7 +167,7 @@ export const FilterBar = () => {
           />
           <SelectBar
             selectType="Countries"
-            values={COUNTRIES}
+            values={COUNTRY_NAMES}
             onChange={handleCountryChange}
             selectedValue={selectedCountry}
           />

@@ -1,8 +1,13 @@
-import { InputAdornment, InputLabel, TextField } from "@mui/material";
+import {
+  IconButton,
+  InputAdornment,
+  InputLabel,
+  TextField,
+} from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import { useState } from "react";
 
-export const SearchInput = () => {
+export const SearchInput = ({ onKeyPress, onChange, value, handleSearch }) => {
   const [focused, setFocused] = useState(false);
 
   return (
@@ -36,7 +41,12 @@ export const SearchInput = () => {
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
-                <SearchIcon color="action" />
+                <IconButton
+                  onClick={() => handleSearch(value)}
+                  disabled={!value}
+                >
+                  <SearchIcon />
+                </IconButton>
               </InputAdornment>
             ),
             sx: {
@@ -51,6 +61,9 @@ export const SearchInput = () => {
               },
             },
           }}
+          onKeyPress={onKeyPress}
+          onChange={onChange}
+          value={value}
         />
       </div>
     </div>

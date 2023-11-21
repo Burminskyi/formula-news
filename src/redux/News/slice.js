@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { getTopNewsThunk } from './operations';
+import { getNewsByHeadersThunk, getTopNewsThunk } from './operations';
 
 const initialState = {
   isLoading: false,
@@ -11,20 +11,10 @@ const initialState = {
 const newsSlice = createSlice({
   name: "news",
   initialState,
-  // reducers: {
-  //   setFavoriteCars: (state, action) => {
-  //     state.favoriteCars.push(action.payload);
-  //   },
-  //   removeFromFavoriteCars: (state, action) => {
-  //     state.favoriteCars = state.favoriteCars.filter(
-  //       (car) => car.id !== action.payload
-  //     );
-  //   },
-  // },
 
   extraReducers: (builder) =>
     builder
-      // -----------GET CARS-------------
+      // -----------GET TOP NEWS-------------
       .addCase(getTopNewsThunk.pending, (state, action) => {
         state.isLoading = true;
       })
@@ -32,14 +22,26 @@ const newsSlice = createSlice({
         state.isLoading = false;
         state.topNews = action.payload.articles;
         state.totalResults = action.payload.totalResults;
+        state.error = null;
       })
       .addCase(getTopNewsThunk.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
+      })
+      // -----------GET NEWS BY QUERY-------------
+      .addCase(getNewsByHeadersThunk.pending, (state, action) => {
+        state.isLoading = true;
+      })
+      .addCase(getNewsByHeadersThunk.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.topNews = action.payload.articles;
+        state.totalResults = action.payload.totalResults;
+        state.error = null;
+      })
+      .addCase(getNewsByHeadersThunk.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
       }),
 });
-
-// export const { setFavoriteCars, removeFromFavoriteCars } = carsSlice.actions;
-
 
 export const newsReducer = newsSlice.reducer;

@@ -3,7 +3,6 @@ import { FilterBar } from "../../components/FilterBar/FilterBar";
 import { CustomContainer, StledHomePage } from "./HomePage.styled";
 
 const HomePage = () => {
-
   return (
     <StledHomePage>
       <CustomContainer>
