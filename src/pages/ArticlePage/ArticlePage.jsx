@@ -3,6 +3,8 @@ import { useLocation } from "react-router-dom";
 
 import {
   GreyText,
+  Image,
+  ImageOverlay,
   ImageWrap,
   ParagraphHeader,
   ParagraphWrap,
@@ -59,7 +61,8 @@ const ArticlePage = () => {
         </ParagraphWrap>
       </Container>
       <ImageWrap>
-        <img src={urlToImage} alt={title} />
+        <ImageOverlay />
+        <Image src={urlToImage} alt="Описание изображения" />
       </ImageWrap>
       <Container>
         <ParagraphWrap>

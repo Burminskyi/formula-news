@@ -48,14 +48,28 @@ export const ImageWrap = styled.div`
   margin-top: 32px;
   margin-bottom: 32px;
   width: 100%;
-  height: 500px;
-  overflow: hidden;
-
-  img {
-    width: 100%;
-    height: auto;
-    object-fit: cover;
-    object-position: center;
-    display: block;
-  }
+  max-height: 500px;
+  overflow: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  background-image: url('путь_к_изображению.jpg');
+  background-size: cover;
 `;
+
+export const ImageOverlay = styled.div`
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0); /* Пример прозрачного цвета фона */
+  position: absolute;
+  z-index: 1;
+`;
+
+export const Image = styled.img`
+  width: 100%;
+  height: auto;
+  display: block;
+  z-index: 0;
+`;
+

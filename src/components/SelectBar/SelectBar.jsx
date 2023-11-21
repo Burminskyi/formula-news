@@ -1,32 +1,50 @@
-import * as React from 'react';
-import Box from '@mui/material/Box';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
+import * as React from "react";
+import Box from "@mui/material/Box";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
+import { Button } from "@mui/material";
 
-export default function SelectBar() {
-  const [age, setAge] = React.useState('');
+export default function SelectBar({ selectType, values, onChange, selectedValue }) {
 
-  const handleChange = (event) => {
-    setAge(event.target.value);
+  const handleChange = (e) => {
+    onChange(e);
+  };
+
+  const handleReset = () => {
+    onChange('');
   };
 
   return (
     <Box sx={{ minWidth: 250 }}>
       <FormControl fullWidth>
-        <InputLabel id="demo-simple-select-label">Select</InputLabel>
+        <InputLabel id="demo-simple-select-label">{selectType}</InputLabel>
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
-          value={age}
-          label="Select"
+          value={selectedValue}
+          label={selectType}
           onChange={handleChange}
+          sx={{
+            "& .MuiSelect-select.MuiSelect-select": {
+              textAlign: "left",
+            },
+          }}
         >
-          <MenuItem value={10}>Ten</MenuItem>
-          <MenuItem value={20}>Twenty</MenuItem>
-          <MenuItem value={30}>Thirty</MenuItem>
+          <MenuItem value="">All</MenuItem>
+          {values &&
+            values.map((value) => (
+              <MenuItem key={value} value={value}>
+                {value}
+              </MenuItem>
+            ))}
         </Select>
+        {selectedValue && (
+          <Button variant="text" onClick={handleReset}>
+            Reset
+          </Button>
+        )}
       </FormControl>
     </Box>
   );
