@@ -12,13 +12,21 @@ import {
 import SelectBar from "../SelectBar/SelectBar";
 import { SearchInput } from "../SearchInput/SearchInput";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   getNewsByHeadersThunk,
   getTopNewsThunk,
 } from "../../redux/News/operations";
+import { selectPage, selectRowsPerPage } from "../../redux/News/selectors";
+import { useNavigate } from "react-router-dom";
+import { setPage } from "../../redux/News/slice";
 
 export const FilterBar = () => {
+  const navigate = useNavigate();
+
+  const page = useSelector(selectPage);
+  const rowsPerPage = useSelector(selectRowsPerPage);
+
   const [isBtnClicked, setIsBtnClicked] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("");
   const [selectedCountry, setSelectedCountry] = useState("");
@@ -38,7 +46,13 @@ export const FilterBar = () => {
   };
 
   const handleSearch = () => {
-    dispatch(getNewsByHeadersThunk(searchValue));
+    const queryParams = new URLSearchParams();
+    queryParams.set("query", searchValue);
+    navigate(`?${queryParams.toString()}`);
+    dispatch(setPage(0));
+    dispatch(
+      getNewsByHeadersThunk({ query: searchValue, rowsPerPage, page: 1 })
+    );
     setSearchValue("");
   };
 
@@ -48,13 +62,21 @@ export const FilterBar = () => {
 
   const handleKeyPress = (event) => {
     if (event.key === "Enter") {
-      handleSearch(searchValue);
+      handleSearch();
     }
   };
 
   const handleSubmit = () => {
     const selectedCountryCode = getKeyByValue(COUNTRIES, selectedCountry);
-    dispatch(getTopNewsThunk({ selectedCountryCode, selectedCategory }));
+    dispatch(
+      getTopNewsThunk({ selectedCountryCode, selectedCategory, page: 1 })
+    );
+
+    const queryParams = new URLSearchParams();
+    queryParams.set("country", selectedCountryCode);
+    queryParams.set("category", selectedCategory);
+
+    navigate(`?${queryParams.toString()}`);
   };
 
   function getKeyByValue(object, value) {

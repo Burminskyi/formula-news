@@ -1,7 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const API_KEY = "cb2a36bc7ba1400994f41c7e4f642de4";
+const API_KEY = "2360f90b326f4d43a97df6cfee939d28";
 
 export const $instance = axios.create({
   baseURL: `https://newsapi.org/v2/`,
@@ -13,13 +13,13 @@ export const $instance = axios.create({
 export const getTopNewsThunk = createAsyncThunk(
   "news/getTopNews",
   async (params = {}, thunkApi) => {
-    const { selectedCountryCode, selectedCategory } = params;
+    const { selectedCountryCode, selectedCategory, rowsPerPage, page } = params;
     const country = selectedCountryCode || "us";
     try {
       const { data } = await $instance.get(
-        `top-headlines/?country=${country}${
-          selectedCategory ? `&category=${selectedCategory}` : ""
-        }`
+        `top-headlines/?country=${country}&pageSize=${rowsPerPage}&page=${
+          page + 1
+        }${selectedCategory ? `&category=${selectedCategory}` : ""}`
       );
       return data;
     } catch (error) {
@@ -30,9 +30,12 @@ export const getTopNewsThunk = createAsyncThunk(
 
 export const getNewsByHeadersThunk = createAsyncThunk(
   "news/getNewsByHeaders",
-  async (query, thunkApi) => {
+  async (params, thunkApi) => {
+    const { query, rowsPerPage, page } = params;
     try {
-      const { data } = await $instance.get(`everything?q=${query}`);
+      const { data } = await $instance.get(
+        `everything?q=${query}&pageSize=${rowsPerPage}&page=${page + 1}`
+      );
       if (data.totalResults === 0)
         throw new Error("По данному запросу ничего не найдено");
       return data;

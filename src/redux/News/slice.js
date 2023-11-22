@@ -1,17 +1,26 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { getNewsByHeadersThunk, getTopNewsThunk } from './operations';
+import { createSlice } from "@reduxjs/toolkit";
+import { getNewsByHeadersThunk, getTopNewsThunk } from "./operations";
 
 const initialState = {
   isLoading: false,
   totalResults: null,
   topNews: [],
   error: null,
+  rowsPerPage: 10,
+  page: 0,
 };
 
 const newsSlice = createSlice({
   name: "news",
   initialState,
-
+  reducers: {
+    setRowsPerPage: (state, action) => {
+      state.rowsPerPage = action.payload;
+    },
+    setPage: (state, action) => {
+      state.page = action.payload;
+    },
+  },
   extraReducers: (builder) =>
     builder
       // -----------GET TOP NEWS-------------
@@ -43,5 +52,7 @@ const newsSlice = createSlice({
         state.error = action.payload;
       }),
 });
+
+export const { setRowsPerPage, setPage } = newsSlice.actions;
 
 export const newsReducer = newsSlice.reducer;
