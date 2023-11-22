@@ -73,3 +73,14 @@ export const Image = styled.img`
   z-index: 0;
 `;
 
+export const NoImageContainer = styled.div`
+  width: 500px;
+  height: 500px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  h2 {
+    font-size: 24px;
+    text-align: center;
+  }
+`;

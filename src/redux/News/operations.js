@@ -1,7 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const API_KEY = "2360f90b326f4d43a97df6cfee939d28";
+const API_KEY = "ad6fe495f4cc48d0a8cb8e2866b89b92";
 
 export const $instance = axios.create({
   baseURL: `https://newsapi.org/v2/`,

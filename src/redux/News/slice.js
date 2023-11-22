@@ -20,6 +20,12 @@ const newsSlice = createSlice({
     setPage: (state, action) => {
       state.page = action.payload;
     },
+    resetRowsPerPage: (state) => {
+      state.rowsPerPage = initialState.rowsPerPage;
+    },
+    resetPage: (state) => {
+      state.page = initialState.page;
+    },
   },
   extraReducers: (builder) =>
     builder
@@ -53,6 +59,7 @@ const newsSlice = createSlice({
       }),
 });
 
-export const { setRowsPerPage, setPage } = newsSlice.actions;
+export const { setRowsPerPage, setPage, resetRowsPerPage, resetPage } =
+  newsSlice.actions;
 
 export const newsReducer = newsSlice.reducer;

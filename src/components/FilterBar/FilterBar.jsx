@@ -71,6 +71,7 @@ export const FilterBar = () => {
     dispatch(
       getTopNewsThunk({ selectedCountryCode, selectedCategory, page: 1 })
     );
+    dispatch(setPage(0));
 
     const queryParams = new URLSearchParams();
     queryParams.set("country", selectedCountryCode);

@@ -11,6 +11,7 @@ import {
   ReturnBtn,
   StyledArticlePage,
   TitleWrap,
+  NoImageContainer,
 } from "./ArticlePage.styled";
 
 const ArticlePage = () => {
@@ -54,22 +55,30 @@ const ArticlePage = () => {
           </ReturnBtn>
           <h1>{title}</h1>
         </TitleWrap>
-        <GreyText className="top">Source: {source.name}</GreyText>
+        <GreyText className="top">Source: {source.name? source.name : undefined}</GreyText>
         <ParagraphWrap>
           <ParagraphHeader>Description</ParagraphHeader>
-          <p>{description}</p>
+          {description ? <p>{description}</p> : <p>Description is missing</p>}
         </ParagraphWrap>
       </Container>
       <ImageWrap>
         <ImageOverlay />
-        <Image src={urlToImage} alt="Описание изображения" />
+        {urlToImage ? (
+          <Image src={urlToImage} alt={title} />
+        ) : (
+          <NoImageContainer>
+            <h2>{title}</h2>
+          </NoImageContainer>
+        )}
       </ImageWrap>
       <Container>
         <ParagraphWrap>
           <ParagraphHeader>Content</ParagraphHeader>
-          <p>{content}</p>
+          {content ? <p>{content}</p> : <p>Content is missing</p>}
         </ParagraphWrap>
-        <GreyText className="bottom">Authors: {author}</GreyText>
+        <GreyText className="bottom">
+          Authors: {author ? author : "Unknown"}
+        </GreyText>
       </Container>
     </StyledArticlePage>
   );
