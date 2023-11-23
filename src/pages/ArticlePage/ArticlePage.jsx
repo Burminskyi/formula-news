@@ -1,5 +1,5 @@
-import { Container } from "@mui/material";
 import { useLocation } from "react-router-dom";
+import { Container } from "@mui/material";
 
 import {
   GreyText,
@@ -55,7 +55,9 @@ const ArticlePage = () => {
           </ReturnBtn>
           <h1>{title}</h1>
         </TitleWrap>
-        <GreyText className="top">Source: {source.name? source.name : undefined}</GreyText>
+        <GreyText className="top">
+          Source: {source.name ? source.name : undefined}
+        </GreyText>
         <ParagraphWrap>
           <ParagraphHeader>Description</ParagraphHeader>
           {description ? <p>{description}</p> : <p>Description is missing</p>}

@@ -1,5 +1,4 @@
 import { Button } from "@mui/material";
-
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import FilterAltOffIcon from "@mui/icons-material/FilterAltOff";
 import {
@@ -17,14 +16,13 @@ import {
   getNewsByHeadersThunk,
   getTopNewsThunk,
 } from "../../redux/News/operations";
-import { selectPage, selectRowsPerPage } from "../../redux/News/selectors";
+import { selectRowsPerPage } from "../../redux/News/selectors";
 import { useNavigate } from "react-router-dom";
 import { setPage } from "../../redux/News/slice";
 
 export const FilterBar = () => {
   const navigate = useNavigate();
 
-  const page = useSelector(selectPage);
   const rowsPerPage = useSelector(selectRowsPerPage);
 
   const [isBtnClicked, setIsBtnClicked] = useState(false);
