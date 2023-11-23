@@ -2,14 +2,7 @@ import * as React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-import Paper from "@mui/material/Paper";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TablePagination from "@mui/material/TablePagination";
-import TableRow from "@mui/material/TableRow";
-
+import { setPage, setRowsPerPage } from "../../redux/News/slice";
 import {
   selectError,
   selectIsLoading,
@@ -18,9 +11,17 @@ import {
   selectTopNews,
   selectTotalResults,
 } from "../../redux/News/selectors";
-import { StyledTableCell, TableCellWrap } from "./Table.styled";
+
 import { Loader } from "../Loader/Loader";
-import { setPage, setRowsPerPage } from "../../redux/News/slice";
+import Paper from "@mui/material/Paper";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TablePagination from "@mui/material/TablePagination";
+import TableRow from "@mui/material/TableRow";
+
+import { StyledTableCell, TableCellWrap } from "./Table.styled";
 
 const columns = [
   { id: "image", label: "Image", minWidth: 100 },
@@ -66,7 +67,7 @@ export default function StickyHeadTable() {
 
   const handleChangeRowsPerPage = (event) => {
     dispatch(setRowsPerPage(event.target.value));
-    dispatch(setPage(1));
+    dispatch(setPage(0));
     updateURLParams({ page: 1 });
   };
 
@@ -134,7 +135,7 @@ export default function StickyHeadTable() {
 
               return (
                 row.url !== "https://removed.com" && (
-                  <TableRow hover role="checkbox" tabIndex={-1} key={row.URL}>
+                  <TableRow hover role="checkbox" tabIndex={-1} key={row.url}>
                     <StyledTableCell>
                       <TableCellWrap className="centered">
                         {" "}
@@ -162,7 +163,7 @@ export default function StickyHeadTable() {
                     </StyledTableCell>
                     <StyledTableCell>
                       <TableCellWrap className="centered">
-                        <a href={row.url} class="svg-link">
+                        <a href={row.url} className="svg-link">
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
                             width="21"
@@ -173,7 +174,7 @@ export default function StickyHeadTable() {
                             <path
                               d="M14.6666 6.21796H12.1666C11.7083 6.21796 11.3333 6.59296 11.3333 7.05129C11.3333 7.50962 11.7083 7.88462 12.1666 7.88462H14.6666C16.0416 7.88462 17.1666 9.00962 17.1666 10.3846C17.1666 11.7596 16.0416 12.8846 14.6666 12.8846H12.1666C11.7083 12.8846 11.3333 13.2596 11.3333 13.718C11.3333 14.1763 11.7083 14.5513 12.1666 14.5513H14.6666C16.9666 14.5513 18.8333 12.6846 18.8333 10.3846C18.8333 8.08462 16.9666 6.21796 14.6666 6.21796ZM7.16663 10.3846C7.16663 10.843 7.54163 11.218 7.99996 11.218H13C13.4583 11.218 13.8333 10.843 13.8333 10.3846C13.8333 9.92629 13.4583 9.55129 13 9.55129H7.99996C7.54163 9.55129 7.16663 9.92629 7.16663 10.3846ZM8.83329 12.8846H6.33329C4.95829 12.8846 3.83329 11.7596 3.83329 10.3846C3.83329 9.00962 4.95829 7.88462 6.33329 7.88462H8.83329C9.29163 7.88462 9.66663 7.50962 9.66663 7.05129C9.66663 6.59296 9.29163 6.21796 8.83329 6.21796H6.33329C4.03329 6.21796 2.16663 8.08462 2.16663 10.3846C2.16663 12.6846 4.03329 14.5513 6.33329 14.5513H8.83329C9.29163 14.5513 9.66663 14.1763 9.66663 13.718C9.66663 13.2596 9.29163 12.8846 8.83329 12.8846Z"
                               fill="black"
-                              fill-opacity="0.54"
+                              fillOpacity="0.54"
                             />
                           </svg>
                         </a>
@@ -189,7 +190,7 @@ export default function StickyHeadTable() {
       <TablePagination
         rowsPerPageOptions={[5, 10, 20]}
         component="div"
-        count={totalResults}
+        count={totalResults || 0}
         rowsPerPage={rowsPerPage}
         page={page}
         onPageChange={handleChangePage}

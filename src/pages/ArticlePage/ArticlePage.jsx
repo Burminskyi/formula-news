@@ -1,6 +1,6 @@
 import { useLocation } from "react-router-dom";
-import { Container } from "@mui/material";
 
+import { Container } from "@mui/material";
 import {
   GreyText,
   Image,
@@ -21,7 +21,7 @@ const ArticlePage = () => {
   const { row } = state || {};
 
   if (!row) {
-    return <div>Данные статьи не найдены</div>;
+    return <div>Requester articles was not found</div>;
   }
 
   const { urlToImage, title, description, content, source, author } = row;

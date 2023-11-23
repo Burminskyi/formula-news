@@ -12,7 +12,7 @@ export const FilterDescription = styled.p`
   font-size: 22px;
   font-style: normal;
   font-weight: 500;
-  line-height: 133.4%; /* 29.348px */
+  line-height: 133.4%;
 `;
 
 export const SearchBarWrap = styled.div`
